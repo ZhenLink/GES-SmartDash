@@ -1,3 +1,4 @@
+const { request } = require("express");
 const express = require("express");
 const { engine } = require("express-handlebars");
 const path = require('path');
@@ -16,11 +17,15 @@ app.use(express.static(__dirname + '/public'));
 app.set('view engine', 'hbs');
 
 app.engine('hbs', engine(({
-  layoutsDir: __dirname + '/views/layouts',
+  layoutsDir: __dirname + '/views/layouts', 
   extname:'hbs'
 })));
 
+app.get('/money/id:',(req, res)=>{
+  res.send('Received a get request for money endpoint');
+});
 
+app.post('/users')
 //configured routes
 app.use('/', index);
 

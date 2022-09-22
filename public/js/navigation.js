@@ -8,7 +8,7 @@ function sidebarHandler(flag) {
         sideBar.style.transform = "translateX(0px)";
         openSidebar.classList.add("hidden");
         closeSidebar.classList.remove("hidden");
-    } else {
+    } else { 
         sideBar.style.transform = "translateX(-260px)";
         closeSidebar.classList.add("hidden");
         openSidebar.classList.remove("hidden");
