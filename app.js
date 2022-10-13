@@ -1,13 +1,39 @@
+require('dotenv').config();
 const express = require("express");
 const { engine } = require("express-handlebars");
 const path = require('path');
+const mongoose = require('mongoose');
 
 
-
+//init Express app
 const app = express();
 
-//loading routes
+
+//mongoDB connection
+
+async function databaseConnection(databaseURI){
+  try {
+    await mongoose.connect(databaseURI, {useNewUrlParser: true }).then(console.log('Connected to MongoDB cluster'));
+  } catch (error) {
+    console.log('Error: ' + error);
+  }
+}
+
+//init DB Connection 
+databaseConnection(process.env.DATABASE_URL);
+
+
+
+//JSON server Parsing
+app.use(express.json());
+
+
 const index = require('./routes/index');
+const apiRouter = require('./routes/api');
+
+
+//loading API routes
+app.use('/api', apiRouter);
 
 
 //setting up static folder

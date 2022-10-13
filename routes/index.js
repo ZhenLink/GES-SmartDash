@@ -3,7 +3,8 @@ const router = express.Router();
 
 router.get('/', (req, res) =>{
     res.render('index', {title: 'GES | Welcome'});
-    res
+    //res.send('Welcome to the initial route');
+    
 });
 
 module.exports = router
