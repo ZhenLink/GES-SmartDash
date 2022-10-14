@@ -10,12 +10,16 @@ const app = express();
 
 
 //mongoDB connection
+const mongoDB = mongoose.connection
+mongoDB.once('open', () =>
+      console.log('Connected to mongoDB server..'));
 
 async function databaseConnection(databaseURI){
   try {
-    await mongoose.connect(databaseURI, {useNewUrlParser: true }).then(console.log('Connected to MongoDB cluster'));
+    await mongoose.connect(databaseURI, {useNewUrlParser: true });
+
   } catch (error) {
-    console.log('Error: ' + error);
+      console.log(error);
   }
 }
 
@@ -30,6 +34,7 @@ app.use(express.json());
 
 const index = require('./routes/index');
 const apiRouter = require('./routes/api');
+const { on } = require('nodemon');
 
 
 //loading API routes
