@@ -1,27 +1,23 @@
-const mongoose = re.quire('mongoose');
+const mongoose = require('mongoose');
 
-const userSchema = new mongoose.Schema({
-    name: {
-        type: String,
-        required: true,
-    },
+const assistantSchema = new mongoose.Schema({
     emailAddress: {
         type: String,
         required: true,
     },
-    contactNumber: {
+    userMessage: {
         type: String,
         required: true,
     },
-    password: {
+    assistantMessage: {
         type: String,
         required: true,
     },
-    registrationDate: {
+    addedDate: {
         type: Date,
         required: true,
         default: Date.now(),
     },
 });
 
-module.exports = mongoose.model('users', userSchema);
+module.exports = mongoose.model('assistant', assistantSchema);

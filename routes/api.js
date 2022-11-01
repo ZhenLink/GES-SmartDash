@@ -86,7 +86,7 @@ router.delete('/user/:id', getUser, async (req, res) =>{
 router.post('/user/signin', AuthUser, async (req, res)=>{
     try { 
           if(await bcrypt.compare(req.body.password, res.user[0]['password'])){
-              res.send('success')
+              res.status(200).json({message: 'Credentials matched'});
             }
         else{
 
@@ -116,7 +116,7 @@ async function getUser(req, res, next) {
     next();
 }
 
-//user middleware
+//user authentication middleware
 async function AuthUser(req, res, next) {
     let user;
     try {
@@ -128,7 +128,7 @@ async function AuthUser(req, res, next) {
             res.status(400).send('cannot find user');
         }else{
             res.user = user;
-                next();
+            next();
         }
     } catch (error) {
         res.status(500).json({message : error.message});
