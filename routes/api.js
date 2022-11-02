@@ -1,8 +1,9 @@
 const express = require('express');
 const User = require('../models/user');
 const bcrypt = require('bcrypt');
-const user = require('../models/user');
+const Assessment = require('../models/assessment');
 const router = express.Router();
+const axios = require('axios');
 
 
 //<<<<<<User API Routes>>>>>>>>//
@@ -136,5 +137,80 @@ async function AuthUser(req, res, next) {
 
    
 }
+
+
+
+//<<<<<<Assessment API Routes>>>>>>>>//
+
+
+//getting assessment Questions
+router.get('/assessment/questions', async (req, res) =>{
+    try {
+        const assessment = await Assessment.find();
+        res.json(assessment);
+    } catch (error) {
+        res.status(500).json({message:  + error.message})
+    }
+});
+
+//inserting questions
+router.post('/assessment/question', async (req, res) =>{
+
+    try{
+        const assessment = new Assessment({
+            Question: req.body.Question,
+            Category: req.body.Category,
+        });
+
+        const newAssessment = await assessment.save();
+        res.status(201).json(newAssessment);
+    
+    } catch(err){
+        res.status(500).send();
+    }
+    
+
+});
+
+
+//categoriess = ["Lighting", "Electronics", "House Accessories"];
+
+//assessment Question finder middleware
+async function GetQuestions(req, res, next) {
+    let question;
+    try {
+        question = await Assessment.find({
+            Category: req.body,
+        });
+
+        if(question.length == 0){
+            res.status(400).send('cannot find questions of that category');
+        }else{
+            res.Assessment = question;
+            next();
+        }
+    } catch (error) {
+        res.status(500).json({message : error.message});
+    }
+
+   
+}
+
+//getting questions
+
+router.post('/assessment/questions', GetQuestions, async (req, res)=>{
+    try { 
+        if(res.statusCode == 200){
+            await res.json(res.Assessment);
+            console.log(res.Assessment)
+        }
+          
+    }
+    catch (error) {
+        res.status(500).send({message: error.message});
+    }
+});
+
+
 
 module.exports = router
