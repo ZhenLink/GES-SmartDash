@@ -42,7 +42,6 @@ router.post('/user/', async (req, res) =>{
         res.status(500).send();
     }
     
-
 });
 
 //updating user
@@ -138,10 +137,7 @@ async function AuthUser(req, res, next) {
    
 }
 
-
-
 //<<<<<<Assessment API Routes>>>>>>>>//
-
 
 //getting assessment Questions
 router.get('/assessment/questions', async (req, res) =>{
@@ -202,7 +198,7 @@ router.post('/assessment/questions', GetQuestions, async (req, res)=>{
     try { 
         if(res.statusCode == 200){
             await res.json(res.Assessment);
-            console.log(res.Assessment)
+        
         }
           
     }
