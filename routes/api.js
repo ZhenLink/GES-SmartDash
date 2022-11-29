@@ -1,9 +1,12 @@
 const express = require('express');
 const User = require('../models/user');
+const Payment = require('../models/payment');
+const Assessments = require('../models/assessments');
 const bcrypt = require('bcrypt');
-const Assessment = require('../models/assessment');
+const Assessment = require('../models/assessment_questions');
 const router = express.Router();
 const axios = require('axios');
+const uuid =  require('uuid');
 
 
 //<<<<<<User API Routes>>>>>>>>//
@@ -168,9 +171,6 @@ router.post('/assessment/question', async (req, res) =>{
 
 });
 
-
-//categoriess = ["Lighting", "Electronics", "House Accessories"];
-
 //assessment Question finder middleware
 async function GetQuestions(req, res, next) {
     let question;
@@ -198,9 +198,7 @@ router.post('/assessment/questions', GetQuestions, async (req, res)=>{
     try { 
         if(res.statusCode == 200){
             await res.json(res.Assessment);
-        
         }
-          
     }
     catch (error) {
         res.status(500).send({message: error.message});
@@ -208,5 +206,64 @@ router.post('/assessment/questions', GetQuestions, async (req, res)=>{
 });
 
 
+//getting completed Assessments
+
+router.get('/appliance', async (req, res)=>{
+    try {
+        const assessments = await Assessments.find();
+        res.json(assessments);
+    } catch (error) {
+        res.status(500).json({message:  + error.message})
+    }
+});
+
+
+
+
+
+
+
+//<<<<<<Payment API Routes>>>>>>>>//
+
+router.post('/payment/payments', async (req, res) =>{
+    try{
+        const paymentRef = uuid.v4();
+        const payment = new Payment({
+            payment_Reference: paymentRef,
+            Customer_Name: req.body.Customer_Name,
+            Customer_Email: req.body.Customer_Email,
+            Amount: req.body.Amount,
+            Currency: req.body.Currency,
+            Project_Number: req.body.Project_Number,
+        });
+
+        const newPayment = await payment.save();
+        res.status(201).json(newPayment);
+    
+    } catch(err){
+        res.json({message : err.message});
+    }
+});
+
+//getting a single user
+router.get('/payment/:id', getPayment, (req, res) =>{
+    res.send(res.payment);
+});
+
+//payment middleware
+async function getPayment(req, res, next) {
+    let payment;
+    try {
+        payment = await Payment.findById(req.params.id);
+        if (payment == null) {
+            return res.status(404).json({message: 'Cannot find that payment'});
+        }
+    } catch (error) {
+        res.status(500).json({message : error.message});
+    }
+
+    res.payment = payment;
+    next();
+}
 
 module.exports = router

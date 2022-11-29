@@ -41,7 +41,7 @@ const { on } = require('nodemon');
 app.use('/api', apiRouter);
 
 
-//setting up static folder0
+//setting up static folder
 app.use(express.static(__dirname + '/public'));
 
 app.set('view engine', 'hbs');
