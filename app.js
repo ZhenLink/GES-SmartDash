@@ -10,7 +10,7 @@ const app = express();
 
 
 //mongoDB connection
-const mongoDB = mongoose.connection
+const mongoDB = mongoose.connection 
 mongoDB.once('open', () =>
       console.log('Connected to mongoDB server..'));
 
