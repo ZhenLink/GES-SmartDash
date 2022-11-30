@@ -7,8 +7,12 @@ const energyreadingsSchema = new mongoose.Schema({
         required: true,
         default: Date.now()
     },
+    DeviceID: {
+        type: String,
+        required: true,
+    },
     Watts: {
-        type: double,
+        type: [],
         required: true,
     },
     

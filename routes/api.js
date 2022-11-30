@@ -1,9 +1,10 @@
 const express = require('express');
 const User = require('../models/user');
 const Payment = require('../models/payment');
-const Assessments = require('../models/assessments');
+const AssessmentsCompleted = require('../models/assessments');
 const bcrypt = require('bcrypt');
 const Assessment = require('../models/assessment_questions');
+const Emonitor = require('../models/energy readings');
 const router = express.Router();
 const axios = require('axios');
 const uuid =  require('uuid');
@@ -210,10 +211,29 @@ router.post('/assessment/questions', GetQuestions, async (req, res)=>{
 
 router.get('/appliance', async (req, res)=>{
     try {
-        const assessments = await Assessments.find();
-        res.json(assessments);
+        const completedassessments = await AssessmentsCompleted.find();
+        res.json(completedassessments);
     } catch (error) {
         res.status(500).json({message:  + error.message})
+    }
+});
+
+//adding assessments to the database
+
+router.post('/appliance/assessments', async (req, res) =>{
+    try{
+        const completedAssessments = new AssessmentsCompleted ({
+            Assessment: req.body.Assessment,
+            User: req.body.User,
+            Location: req.body.Location,
+        });
+
+        const newAssessment = await completedAssessments.save();
+        res.status(201).json(newAssessment);
+
+    
+    } catch(err){
+        res.json({message : err.message});
     }
 });
 
@@ -245,7 +265,7 @@ router.post('/payment/payments', async (req, res) =>{
     }
 });
 
-//getting a single user
+//getting single payment user
 router.get('/payment/:id', getPayment, (req, res) =>{
     res.send(res.payment);
 });
@@ -263,6 +283,59 @@ async function getPayment(req, res, next) {
     }
 
     res.payment = payment;
+    next();
+}
+
+
+
+
+//<<<<<<Emonitor API Routes>>>>>>>>//
+
+//inserting questions
+router.post('/emonitor/readings', async (req, res) =>{
+
+    try{
+        const  emonitor = new Emonitor({
+            TimeStamp: req.body.TimeStamp,
+            DeviceID: req.body.DeviceID,
+            Watts: req.body.Watts,
+        });
+
+        const newEmonitor = await emonitor.save();
+        res.status(201).json(newEmonitor);
+    
+    } catch(err){
+        res.status(500).send();
+    }
+    
+
+});
+
+//getting solar Questions
+router.get('/emonitor/readings/all', async (req, res) =>{
+    try {
+        const emonitor = await Emonitor.find();
+        res.json(emonitor);
+    } catch (error) {
+        res.status(500).json({message:  + error.message})
+    }
+});
+
+//solar device middleware
+async function getDeviceID(req, res, next) {
+    let device;
+    try {
+        device = await Emonitor.find({
+            DeviceID: req.body.DeviceID
+        });
+        if (device == null) {
+            return res.status(404).json({message: 'Cannot find that device'});
+        }
+    } catch (error) {
+        res.status(500).json({message : error.message});
+    }
+
+    res.device = device;
     next();
 }
 

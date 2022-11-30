@@ -31,14 +31,26 @@ databaseConnection(process.env.DATABASE_URL);
 //JSON server Parsing
 app.use(express.json());
 
-
+//application routes
 const index = require('./routes/index');
+const assessment = require('./routes/assessment');
+const payment = require('./routes/payment');
+const clients = require('./routes/clients');
+const reports = require('./routes/reports');
+const emonitor = require('./routes/emonitor');
 const apiRouter = require('./routes/api');
 const { on } = require('nodemon');
 
 
 //loading API routes
 app.use('/api', apiRouter);
+
+//loading dashboard routes
+app.use('/assessment', assessment);
+app.use('/payment', payment);
+app.use('/clients', clients);
+app.use('/reports',reports);
+app.use('/emonitor', emonitor);
 
 
 //setting up static folder

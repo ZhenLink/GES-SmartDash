@@ -11,11 +11,11 @@ const assessmentsCompletedSchema = new mongoose.Schema({
         required: true,
     },
     Location: {
-        type: String,
+        type: [],
         required: true,
     },
     Date: {
-        type: String,
+        type: Date,
         required: true,
         default: Date.now()
     },
