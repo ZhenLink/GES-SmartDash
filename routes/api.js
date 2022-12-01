@@ -296,7 +296,6 @@ router.post('/emonitor/readings', async (req, res) =>{
 
     try{
         const  emonitor = new Emonitor({
-            TimeStamp: req.body.TimeStamp,
             DeviceID: req.body.DeviceID,
             Watts: req.body.Watts,
         });
@@ -311,7 +310,7 @@ router.post('/emonitor/readings', async (req, res) =>{
 
 });
 
-//getting solar Questions
+//getting solar readings
 router.get('/emonitor/readings/all', async (req, res) =>{
     try {
         const emonitor = await Emonitor.find();
@@ -321,12 +320,17 @@ router.get('/emonitor/readings/all', async (req, res) =>{
     }
 });
 
+//getting a single user
+router.get('/emonitor/readings/:id', getDeviceID, (req, res) =>{
+    res.send(res.device);
+});
+
 //solar device middleware
 async function getDeviceID(req, res, next) {
     let device;
     try {
         device = await Emonitor.find({
-            DeviceID: req.body.DeviceID
+            DeviceID: req.params.id
         });
         if (device == null) {
             return res.status(404).json({message: 'Cannot find that device'});

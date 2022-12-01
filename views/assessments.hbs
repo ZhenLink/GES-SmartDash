@@ -93,10 +93,13 @@
                             <td class="pl-4 cursor-pointer">
                                 <div class="flex items-center">
                                     
+                                    {{#each assessment as |value key}}
                                     <div class="pl-4">
-                                        <p class="font-medium">UX Design &amp; Visual Strategy</p>
+                                        <p class="font-medium">{{key}}{{value}}</p>
                                         
                                     </div>
+
+                                    {{/each}}
                                 </div>
                             </td>
                             <td class="pl-12">

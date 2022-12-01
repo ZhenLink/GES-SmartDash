@@ -12,7 +12,7 @@ const energyreadingsSchema = new mongoose.Schema({
         required: true,
     },
     Watts: {
-        type: [],
+        type: Number,
         required: true,
     },
     
