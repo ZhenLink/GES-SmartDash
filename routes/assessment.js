@@ -18,21 +18,5 @@ router.get('/', (req, res) =>{
     });
     
 });
-async function CalculateApplianceLoad(req, res, next) {
-    let device;
-    try {
-        device = await Emonitor.find({
-            DeviceID: req.params.id
-        });
-        if (device == null) {
-            return res.status(404).json({message: 'Cannot find that device'});
-        }
-    } catch (error) {
-        res.status(500).json({message : error.message});
-    }
-
-    res.device = device;
-    next();
-}
 
 module.exports = router

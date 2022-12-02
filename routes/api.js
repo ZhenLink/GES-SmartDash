@@ -8,6 +8,7 @@ const Emonitor = require('../models/energy readings');
 const router = express.Router();
 const axios = require('axios');
 const uuid =  require('uuid');
+const ScheduledInstallations = require('../models/scheduled_installations');
 
 
 //<<<<<<User API Routes>>>>>>>>//
@@ -342,5 +343,24 @@ async function getDeviceID(req, res, next) {
     res.device = device;
     next();
 }
+
+//sheduling installations
+router.post('/installations/scheduled', async (req, res) =>{
+    try{
+        const scheduled = new ScheduledInstallations({
+            Customer: req.body.name,
+            ProjectID: req.body.project-number,
+            Contact: req.body.contact,
+            Date: req.body.installation-date,
+            Message:req.body.message
+        });
+
+        const newScheduled = await scheduled.save();
+        res.status(201).json(newScheduled);
+    
+    } catch(err){
+        res.status(500).json(err);
+    }
+});
 
 module.exports = router

@@ -1,0 +1,107 @@
+<header>
+  <!--Navigation-->
+  <script
+    src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js"
+    defer
+  ></script>
+  <div class="w-full">
+    <div class="antialiased bg-gray-100 dark-mode:bg-gray-900">
+      <div
+        class="w-full text-gray-700 bg-white dark-mode:text-gray-200 dark-mode:bg-gray-800"
+      >
+        <div
+          x-data="{ open: false }"
+          class="flex flex-col max-w-screen-xl px-4 mx-auto md:items-center md:justify-between md:flex-row md:px-6 lg:px-8"
+        >
+          <div class="flex flex-row items-center justify-between p-4">
+            <a
+              href="/"
+              class="text-lg font-semibold tracking-widest text-gray-900 uppercase rounded-lg dark-mode:text-white focus:outline-none focus:shadow-outline"
+            >Green Energy Solutions
+            </a>
+            <button
+              class="rounded-lg md:hidden focus:outline-none focus:shadow-outline"
+              @click="open = !open"
+            >
+              <svg fill="currentColor" viewBox="0 0 20 20" class="w-6 h-6">
+                <path
+                  x-show="!open"
+                  fill-rule="evenodd"
+                  d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM9 15a1 1 0 011-1h6a1 1 0 110 2h-6a1 1 0 01-1-1z"
+                  clip-rule="evenodd"
+                ></path>
+                <path
+                  x-show="open"
+                  fill-rule="evenodd"
+                  d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                  clip-rule="evenodd"
+                ></path>
+              </svg>
+
+            </button>
+          </div>
+          <nav
+            :class="{'flex': open, 'hidden': !open}"
+            class="flex-col flex-grow hidden pb-4 md:pb-0 md:flex md:justify-end md:flex-row"
+          >
+            <a
+              class="px-4 py-2 mt-2 text-sm font-semibold bg-transparent rounded-lg dark-mode:bg-transparent dark-mode:hover:bg-green-600 dark-mode:focus:bg-gray-600 dark-mode:focus:text-white dark-mode:hover:text-white dark-mode:text-gray-200 md:mt-0 md:ml-4 hover:text-white focus:text-gray-900 hover:bg-green-700 focus:bg-gray-200 focus:outline-none focus:shadow-outline"
+              href="/emonitor"
+            >E-Monitor</a>
+            <a
+              class="px-4 py-2 mt-2 text-sm font-semibold bg-transparent rounded-lg dark-mode:bg-transparent dark-mode:hover:bg-green-600 dark-mode:focus:bg-gray-600 dark-mode:focus:text-white dark-mode:hover:text-white dark-mode:text-gray-200 md:mt-0 md:ml-4 hover:text-white focus:text-gray-900 hover:bg-green-700 focus:bg-gray-200 focus:outline-none focus:shadow-outline"
+              href="/reports"
+            >Payment Completed</a>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+
+    <section>
+
+    <form action="http://localhost:5000/api/installations/scheduled/" method="post">
+      <div class="w-full flex items-center justify-center my-12">
+        <div class=" -top-40 bg-white  shadow rounded py-12 lg:px-28 px-8">
+        <div class=" text-center">
+          <p class="md:text-3xl text-xl font-bold leading-7 text-center text-gray-700 ">Schedule installation dates</p>
+          <div class="md:flex items-center mt-12">
+            <div class="md:w-72 flex flex-col">
+              <label class="text-base font-semibold leading-none text-gray-800 ">Name</label>
+              <input tabindex="0" arial-label="Please input name" id="name" required name="name" type="text" class="text-base leading-none text-gray-900 p-3 focus:oultine-none focus:border-indigo-700 mt-4 bg-gray-100 border rounded border-gray-200 placeholder-gray-400" placeholder="Enter full  name" />
+            </div>
+            <div class="md:w-72 flex flex-col md:ml-6 md:mt-0 mt-4">
+              <label class="text-base font-semibold leading-none text-gray-800 ">Project ID/ Number</label>
+              <input tabindex="0" arial-label="Please input email address" id="project-number" required name="project-number" type="text" class="text-base leading-none text-gray-900 p-3 focus:oultine-none focus:border-indigo-700 mt-4 bg-gray-100 border rounded border-gray-200 placeholder-gray-400" placeholder="Enter Project ID/Number" />
+            </div>
+          </div>
+          <div class="md:flex items-center mt-12">
+            <div class="md:w-72 flex flex-col">
+              <label class="text-base font-semibold leading-none text-gray-800">Contact number</label>
+              <input tabindex="0" arial-label="Please input contact number" id="contact" required name="contact" type="text" class="text-base leading-none text-gray-900 p-3 focus:oultine-none focus:border-indigo-700 mt-4 bg-gray-100 border rounded border-gray-200 placeholder-gray-400" placeholder="Enter contact number" />
+            </div>
+            <div class="md:w-72 flex flex-col md:ml-6 md:mt-0 mt-4">
+              <label class="text-base font-semibold leading-none text-gray-800">installation date</label>
+              <input tabindex="0" arial-label="Please input Appointment date" id="installation-date" required name="installation-date" type="date" class="text-base leading-none text-gray-900 p-3 focus:oultine-none focus:border-indigo-700 mt-4 bg-gray-100 border rounded border-gray-200 placeholder-gray-400" placeholder="Enter Installation date" />
+            </div>
+          </div>
+          
+          <div>
+            <div class="w-full flex flex-col mt-8">
+              <label class="text-base font-semibold leading-none text-gray-800 ">Message</label>
+              <textarea tabindex="0" aria-label="leave a message" id="message" name="message" role="textbox" type="name" class="h-36 text-base leading-none text-gray-900 p-3 focus:oultine-none focus:border-indigo-700 mt-4 bg-gray-100 border rounded border-gray-200 placeholder-gray-400 resize-none"></textarea>
+            </div>
+          </div>
+          <p class="text-xs leading-3 text-gray-700 mt-4">By clicking submit you agree to our terms of service, privacy policy and how we use data as stated</p>
+          <div class="flex items-center justify-center w-full">
+            <button type="submit" class="mt-9 text-base font-semibold leading-none text-white py-4 px-10 bg-green-800 rounded hover:bg-gray-600 focus:ring-2 focus:ring-offset-2 focus:ring-indigo-700 focus:outline-none">Schedule installation</button>
+          </div>
+        </div>
+      </div>
+    </form>
+    </div>
+
+  </section>
+
